@@ -10,7 +10,10 @@
 .macro befehl_in_speicher_schieben // befehl=@0
 ldi zh, high(2*@0)
 ldi zl, low(2*@0)
+rcall befehl_in_speicher_schieben_call
+.endm
 
+befehl_in_speicher_schieben_call:
 ldi xh, high(BEFEHL_SPEICHER)
 ldi xl, low(BEFEHL_SPEICHER)
 mov temp2, NULL
@@ -31,8 +34,7 @@ NOP
 lds temp, BEFEHL_SCHREIBPOSITION
 add temp, temp2
 sts BEFEHL_SCHREIBPOSITION, temp
-
-.endm
+ret
 
 
 ;#############################################
@@ -52,6 +54,10 @@ sts BEFEHL_SCHREIBPOSITION, NULL
 ;### Bedarf: 28 Byte, 08+(anz+1)*9 Takte #####
 ;#############################################
 .macro befehl_auffuellen
+rcall befehl_auffuellen2
+.endm
+
+befehl_auffuellen2:
 lds temp, BEFEHL_SCHREIBPOSITION
 ldi xh, high(BEFEHL_SPEICHER)
 ldi xl, low(BEFEHL_SPEICHER)
@@ -75,7 +81,7 @@ NOP
 NOP
 
 sts BEFEHL_SCHREIBPOSITION, temp
-.endm
+ret
 
 
 ;#############################################
@@ -84,6 +90,10 @@ sts BEFEHL_SCHREIBPOSITION, temp
 ;###### Bedarf: 20 Byte, 137+INF Takte #######
 ;#############################################
 .macro befehl_senden
+rcall befehl_senden2
+.endm
+
+befehl_senden2:
 ldi xh, high(BEFEHL_SPEICHER)
 ldi xl, low(BEFEHL_SPEICHER)
 ldi temp,0
@@ -101,8 +111,8 @@ inc temp
 cpi temp, 15
 brne senden
 over_senden:
-
-.endm
+wait_ms 3
+ret
 
 .macro uart_send; zeichen=@0
 warten:
@@ -122,29 +132,32 @@ out     UDR, temp
 ;#############################################
 .macro befehl_leerzeichen // anzahl=@0
 ldi temp3, @0
+rcall befehl_leerzeichen_call
+.endm
 
+befehl_leerzeichen_call:
 lds temp, BEFEHL_SCHREIBPOSITION
 ldi xh, high(BEFEHL_SPEICHER)
 ldi xl, low(BEFEHL_SPEICHER)
 add xl, temp
 adc xh, NULL
 
-schreiben:
+schreiben4:
 cpi temp, 15
-brsh end_schreiben
+brsh end_schreiben3
 cpi temp3, 0
-breq end_schreiben2
+breq end_schreiben4
 dec temp3
 
 ldi temp2,' '
 st X+, temp2
 inc temp
-rjmp schreiben
-end_schreiben:
+rjmp schreiben4
+end_schreiben3:
 NOP
 NOP
 
-end_schreiben2:
+end_schreiben4:
 NOP
 NOP
 NOP
@@ -153,7 +166,7 @@ NOP
 NOP
 
 sts BEFEHL_SCHREIBPOSITION, temp
-.endm
+ret
 
 
 ;#############################################
@@ -164,22 +177,8 @@ sts BEFEHL_SCHREIBPOSITION, temp
 ;################# 00 Takte ##################
 ;#############################################
 .macro befehl_zeichen // zeichen=@0
-lds temp, BEFEHL_SCHREIBPOSITION
-ldi xh, high(BEFEHL_SPEICHER)
-ldi xl, low(BEFEHL_SPEICHER)
-add xl, temp
-adc xh, NULL
-
-schreiben:
-cpi temp, 15
-brsh end_schreiben
-
-ldi temp2,@0
-st X+, temp2
-inc temp
-end_schreiben:
-
-sts BEFEHL_SCHREIBPOSITION, temp
+ldi temp, @0
+rcall befehl_zeichen_call
 .endm
 
 
@@ -199,13 +198,13 @@ ldi xl, low(BEFEHL_SPEICHER)
 add xl, temp
 adc xh, NULL
 
-schreiben:
+schreiben2:
 cpi temp, 15
-brsh end_schreiben
+brsh end_schreiben2
 
 st X+, temp2
 inc temp
-end_schreiben:
+end_schreiben2:
 sts BEFEHL_SCHREIBPOSITION, temp
 ret
 
@@ -227,7 +226,7 @@ befehl_auffuellen
 ;#############################################
 ;######## Aktion für LICHT auslösen ##########
 ;#############################################
-;############# Bedarf: 00+@0 Byte ############
+;############# Bedarf: 20+@0 Byte ############
 ;############## , 000+@0 Takte ###############
 ;#############################################
 .macro LICHT_BEFEHL ; Befehlsmakro=@0, Scheinwerfer=@1, Zustand=@2
@@ -237,14 +236,14 @@ befehl_zeichen 48+@1
 befehl_zeichen ' '
 befehl_zeichen 48+@2
 befehl_auffuellen
-@0
+//@0
 .endm
 
 
 ;#############################################
 ;######## Aktion für L auslösen ##########
 ;#############################################
-;############# Bedarf: 00+@0 Byte ############
+;############# Bedarf: 82+@0 Byte ############
 ;############## , 000+@0 Takte ###############
 ;#############################################
 .macro L_BEFEHL ; Befehlsmakro=@0, Scheinwerfer=@1, Rot=@2, Gruen=@3, Blau=@4
