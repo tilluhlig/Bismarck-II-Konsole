@@ -125,54 +125,114 @@ scheinwerfer_ausschalten:
 // alle Scheinwerfer ausschalten
 sts SCHEINWERFER, NULL
 LICHT_BEFEHL befehl_senden,1,0
-wait_ms 100
+wait_ms 5
 LICHT_BEFEHL befehl_senden,2,0
-wait_ms 100
+wait_ms 5
 LICHT_BEFEHL befehl_senden,3,0
-wait_ms 100
+wait_ms 5
 LICHT_BEFEHL befehl_senden,4,0
-wait_ms 100
+wait_ms 5
 LICHT_BEFEHL befehl_senden,5,0
-wait_ms 100
+wait_ms 5
 
 rjmp scheinwerfer_schalten_ende
 schweinwerfer_einschalten:
 // alle Scheinwerfer einschalten
 sts SCHEINWERFER, EINS
 LICHT_BEFEHL befehl_senden, 1, 1
-wait_ms 100
+wait_ms 5
 LICHT_BEFEHL befehl_senden, 2, 1
-wait_ms 100
+wait_ms 5
 LICHT_BEFEHL befehl_senden, 3, 1
-wait_ms 100
+wait_ms 5
 LICHT_BEFEHL befehl_senden, 4, 1
-wait_ms 100
+wait_ms 5
 LICHT_BEFEHL befehl_senden, 5, 1
-wait_ms 100
+wait_ms 5
 scheinwerfer_schalten_ende:
 sts AKTIV2, ALL
 rjmp ende_tasten
 l_zwei_taste_nicht_unten:
 
 
-// SUPER_TASTE pruefen (L)
-SUPER_TASTE pruefe_taste_gedrueckt, super_taste_gedrueckt2, super_taste_nicht_gedrueckt2
-super_taste_gedrueckt2:
+// EINS_TASTE pruefen (L)
+EINS_TASTE pruefe_taste_gedrueckt, eins_taste_gedrueckt, eins_taste_nicht_gedrueckt
+eins_taste_gedrueckt:
 
 L_BEFEHL befehl_senden, 1, 255, 255, 255
-wait_ms 150
+wait_ms 5
 L_BEFEHL befehl_senden, 2, 255, 255, 255
-wait_ms 150
+wait_ms 5
 L_BEFEHL befehl_senden, 3, 255, 255, 255
-wait_ms 150
+wait_ms 5
 L_BEFEHL befehl_senden, 4, 255, 255, 255
-wait_ms 150
+wait_ms 5
 L_BEFEHL befehl_senden, 5, 255, 255, 255
-wait_ms 150
+wait_ms 5
 
 sts AKTIV2, ALL
 rjmp ende_tasten
-super_taste_nicht_gedrueckt2:
+eins_taste_nicht_gedrueckt:
+
+
+// ZWEI_TASTE pruefen (L)
+ZWEI_TASTE pruefe_taste_gedrueckt, zwei_taste_gedrueckt, zwei_taste_nicht_gedrueckt
+zwei_taste_gedrueckt:
+
+L_BEFEHL befehl_senden, 1, 255, 0, 0
+wait_ms 5
+L_BEFEHL befehl_senden, 2, 255, 0, 0
+wait_ms 5
+L_BEFEHL befehl_senden, 3, 255, 0, 0
+wait_ms 5
+L_BEFEHL befehl_senden, 4, 255, 0, 0
+wait_ms 5
+L_BEFEHL befehl_senden, 5, 255, 0, 0
+wait_ms 5
+
+sts AKTIV2, ALL
+rjmp ende_tasten
+zwei_taste_nicht_gedrueckt:
+
+
+// DREI_TASTE pruefen (L)
+DREI_TASTE pruefe_taste_gedrueckt, drei_taste_gedrueckt, drei_taste_nicht_gedrueckt
+drei_taste_gedrueckt:
+
+L_BEFEHL befehl_senden, 1, 0, 255, 0
+wait_ms 5
+L_BEFEHL befehl_senden, 2, 0, 255, 0
+wait_ms 5
+L_BEFEHL befehl_senden, 3, 0, 255, 0
+wait_ms 5
+L_BEFEHL befehl_senden, 4, 0, 255, 0
+wait_ms 5
+L_BEFEHL befehl_senden, 5, 0, 255, 0
+wait_ms 5
+
+sts AKTIV2, ALL
+rjmp ende_tasten
+drei_taste_nicht_gedrueckt:
+
+
+// VIER_TASTE pruefen (L)
+VIER_TASTE pruefe_taste_gedrueckt, vier_taste_gedrueckt, vier_taste_nicht_gedrueckt
+vier_taste_gedrueckt:
+
+L_BEFEHL befehl_senden, 1, 0, 0, 255
+wait_ms 5
+L_BEFEHL befehl_senden, 2, 0, 0, 255
+wait_ms 5
+L_BEFEHL befehl_senden, 3, 0, 0, 255
+wait_ms 5
+L_BEFEHL befehl_senden, 4, 0, 0, 255
+wait_ms 5
+L_BEFEHL befehl_senden, 5, 0, 0, 255
+wait_ms 5
+
+sts AKTIV2, ALL
+rjmp ende_tasten
+vier_taste_nicht_gedrueckt:
 
 
 ende_tasten:
