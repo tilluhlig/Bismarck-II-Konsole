@@ -58,12 +58,12 @@
     sbic @3, @5
     rjmp ist_nicht_unten
     ist_unten:
-    sts TASTEN_ZUSTAENDE+@7, EINS
+    sts TASTEN_ZUSTAENDE_TEMP+@7, EINS
     NOP
     rjmp @8
     
     ist_nicht_unten:
-    sts TASTEN_ZUSTAENDE+@7, NULL
+    sts TASTEN_ZUSTAENDE_TEMP+@7, NULL
     rjmp @9
 
 .endm
@@ -93,11 +93,11 @@
     sbic @3, @5
     rjmp ist_nicht_unten
     ist_unten:
-    sts TASTEN_ZUSTAENDE+@7, EINS
+    sts TASTEN_ZUSTAENDE_TEMP+@7, EINS
     rjmp @9
     
     ist_nicht_unten:
-    sts TASTEN_ZUSTAENDE+@7, NULL
+    sts TASTEN_ZUSTAENDE_TEMP+@7, NULL
     rjmp @8
 .endm
 
@@ -127,7 +127,7 @@
     rjmp ist_nicht_unten
     ist_unten:
     sts TASTEN_ZUSTAENDE+@7, EINS
-    lds temp, TASTEN_ZUSTAENDE+@7
+    lds temp, TASTEN_ZUSTAENDE_TEMP+@7
     cpi temp, 0
     brne ist_nicht_unten2
 
@@ -142,7 +142,7 @@
     NOP
 
     ist_nicht_unten2:
-    sts TASTEN_ZUSTAENDE+@7, NULL
+    sts TASTEN_ZUSTAENDE_TEMP+@7, NULL
     rjmp @9
 
 .endm
