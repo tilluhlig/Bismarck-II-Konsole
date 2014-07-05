@@ -5,7 +5,7 @@
 ;############## Befehl markieren #############
 ;#############################################
 ;############ Bedarf: 32 Byte,  ##############
-;###### 10+(count(befehl)+1)*9 Takte #########
+;###### 10+(count(befehl)+1)*10 Takte #########
 ;#############################################
 .macro befehl_in_speicher_schieben // befehl=@0
 ldi zh, high(2*@0)
@@ -16,7 +16,7 @@ ldi xl, low(BEFEHL_SPEICHER)
 mov temp2, NULL
 
 lesen:
-ld temp, Z+
+lpm temp, Z+
 cpi temp, 0
 breq end_lesen
 inc temp2
@@ -90,7 +90,6 @@ ldi temp,0
 
 senden:
 ld temp2, X+
-inc temp
 
 ; UART senden
 warten:
@@ -98,10 +97,19 @@ sbis    UCSRA,UDRE
 rjmp    warten
 out     UDR, temp2
 
+inc temp
 cpi temp, 15
 brne senden
 over_senden:
 
+.endm
+
+.macro uart_send; zeichen=@0
+warten:
+sbis    UCSRA,UDRE
+rjmp    warten
+ldi temp, @0
+out     UDR, temp
 .endm
 
 
