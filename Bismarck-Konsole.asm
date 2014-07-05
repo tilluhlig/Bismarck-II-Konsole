@@ -26,9 +26,10 @@ rjmp reset
 .org OC1Aaddr  
 rjmp loop
 
+.include "Sonstiges.asm"
+.include "Warten.asm"
 .include "Befehle.asm"
 .include "Gamepad.asm"
-.include "Warten.asm"
 
 reset:
 ldi temp, 0
@@ -40,6 +41,7 @@ mov ALL, temp
 
 sts AKTIV, NULL
 sts AKTIV2, NULL
+sts SCHEINWERFER, NULL
 
 ; Pins einstellen
 ldi temp, LOW(RAMEND)
@@ -100,13 +102,64 @@ loop:
 
 // Tasten prüfen
 
-// SUPER_TASTE pruefen
-SUPER_TASTE pruefe_taste_gedrueckt, super_taste_gedrueckt, super_taste_nicht_gedrueckt
+// SUPER_TASTE pruefen (HALLO)
+/*SUPER_TASTE pruefe_taste_gedrueckt, super_taste_gedrueckt, super_taste_nicht_gedrueckt
 super_taste_gedrueckt:
 HALLO_BEFEHL befehl_senden
 sts AKTIV2, ALL
-super_taste_nicht_gedrueckt:
+super_taste_nicht_gedrueckt:*/
 
+
+// Scheinwerfer einstellen
+L_ZWEI_TASTE pruefe_taste_unten, l_zwei_taste_unten, l_zwei_taste_nicht_unten
+l_zwei_taste_unten:
+SUPER_TASTE pruefe_taste_gedrueckt, super_taste_gedrueckt, l_zwei_taste_nicht_unten
+super_taste_gedrueckt:
+// Scheinwerfer toggle
+
+lds temp, SCHEINWERFER
+cpi temp,0
+brne scheinwerfer_ausschalten
+rjmp schweinwerfer_einschalten
+scheinwerfer_ausschalten:
+// alle Scheinwerfer ausschalten
+sts SCHEINWERFER, NULL
+LICHT_BEFEHL befehl_senden,1,0
+LICHT_BEFEHL befehl_senden,2,0
+LICHT_BEFEHL befehl_senden,3,0
+LICHT_BEFEHL befehl_senden,4,0
+LICHT_BEFEHL befehl_senden,5,0
+
+rjmp scheinwerfer_schalten_ende
+schweinwerfer_einschalten:
+// alle Scheinwerfer einschalten
+sts SCHEINWERFER, EINS
+LICHT_BEFEHL befehl_senden, 1, 1
+LICHT_BEFEHL befehl_senden, 2, 1
+LICHT_BEFEHL befehl_senden, 3, 1
+LICHT_BEFEHL befehl_senden, 4, 1
+LICHT_BEFEHL befehl_senden, 5, 1
+scheinwerfer_schalten_ende:
+sts AKTIV2, ALL
+rjmp ende_tasten
+l_zwei_taste_nicht_unten:
+
+
+// SUPER_TASTE pruefen (L)
+SUPER_TASTE pruefe_taste_gedrueckt, super_taste_gedrueckt2, super_taste_nicht_gedrueckt2
+super_taste_gedrueckt2:
+L_BEFEHL befehl_senden, 1, 255, 255, 255
+L_BEFEHL befehl_senden, 2, 255, 255, 255
+L_BEFEHL befehl_senden, 3, 255, 255, 255
+L_BEFEHL befehl_senden, 4, 255, 255, 255
+L_BEFEHL befehl_senden, 5, 255, 255, 255
+
+sts AKTIV2, ALL
+rjmp ende_tasten
+super_taste_nicht_gedrueckt2:
+
+
+ende_tasten:
 tasten_zustaende_aktualisieren
 
 // Prüfen ob es in der letzten Zeit eine Aktivität gab
@@ -149,3 +202,5 @@ reti
 .DSEG
 AKTIV:        .BYTE 1
 AKTIV2:        .BYTE 1
+
+SCHEINWERFER: .BYTE 1
