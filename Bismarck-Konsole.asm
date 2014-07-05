@@ -85,7 +85,7 @@ cli
 // Tasten prüfen
 
 // SUPER_TASTE pruefen
-SUPER_TASTE pruefe_taste_unten, super_taste_gedrueckt, super_taste_nicht_gedrueckt
+SUPER_TASTE pruefe_taste_gedrueckt, super_taste_gedrueckt, super_taste_nicht_gedrueckt
 super_taste_gedrueckt:
 HALLO_BEFEHL befehl_senden
 super_taste_nicht_gedrueckt:
