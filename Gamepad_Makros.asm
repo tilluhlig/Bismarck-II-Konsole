@@ -146,3 +146,26 @@
     rjmp @9
 
 .endm
+
+;#############################################
+;########### aktualisierte die ###############
+;############ Tastenzustaende ################
+;#############################################
+;######## Bedarf: 20 Byte, 130 Takte ##########
+;#############################################
+.macro tasten_zustaende_aktualisieren
+ldi zl, low(TASTEN_ZUSTAENDE_TEMP)
+ldi zh, high(TASTEN_ZUSTAENDE_TEMP)
+
+ldi xl, low(TASTEN_ZUSTAENDE)
+ldi xh, high(TASTEN_ZUSTAENDE)
+
+ldi temp, 18
+nochmal:
+ld temp2, Z+
+st X+, temp2
+
+dec temp
+brne nochmal
+
+.endm
