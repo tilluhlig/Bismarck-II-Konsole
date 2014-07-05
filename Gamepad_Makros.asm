@@ -106,7 +106,7 @@
 ;######### prueft, ob eine Taste #############
 ;############ gedrueckt wurde ################
 ;#############################################
-;######## Bedarf: 34 Byte, 21 Takte ##########
+;######## Bedarf: 34 Byte, 18 Takte ##########
 ;#############################################
 .macro pruefe_taste_gedrueckt
 // Aufruf: outPort=@0, outPin=@1, outReg=@2, inPort=@3, inPort2=@4, inPin=@5, inReg=@6, ID=@7, THEN=@8, ELSE=@9
@@ -121,27 +121,26 @@
     // out als Ausgang einstellen
     sbi @2, @1
     // Ausgang auf 0
-    cbi @0, @1  
+    cbi @0, @1;8  
 
     sbic @3, @5
-    rjmp ist_nicht_unten
+    rjmp ist_nicht_unten2
     ist_unten:
-    sts TASTEN_ZUSTAENDE+@7, EINS
-    lds temp, TASTEN_ZUSTAENDE_TEMP+@7
+    sts TASTEN_ZUSTAENDE_TEMP+@7, EINS
+    lds temp, TASTEN_ZUSTAENDE+@7
     cpi temp, 0
-    brne ist_nicht_unten2
+    brne ist_nicht_unten
 
-    NOP
-    NOP
     NOP
     rjmp @8
     
     ist_nicht_unten:
-    NOP
-    NOP
-    NOP
+    rjmp @9
 
     ist_nicht_unten2:
+	NOP
+	NOP
+	NOP
     sts TASTEN_ZUSTAENDE_TEMP+@7, NULL
     rjmp @9
 
