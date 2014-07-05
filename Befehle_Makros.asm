@@ -81,7 +81,7 @@ sts BEFEHL_SCHREIBPOSITION, temp
 ;#############################################
 ;######### aktuellen Befehl absenden #########
 ;#############################################
-;######## Bedarf: 20 Byte, INF Takte ##########
+;###### Bedarf: 20 Byte, 137+INF Takte #######
 ;#############################################
 .macro befehl_senden
 ldi xh, high(BEFEHL_SPEICHER)

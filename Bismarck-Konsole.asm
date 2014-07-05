@@ -28,6 +28,7 @@ rjmp loop
 
 .include "Befehle.asm"
 .include "Gamepad.asm"
+.include "Warten.asm"
 
 reset:
 ldi temp, 0
@@ -36,7 +37,42 @@ ldi temp, 1
 mov EINS, temp
 ldi temp, 255
 mov ALL, temp
-  
+
+// Willkommen
+sbi DDRD, 7
+sbi PORTD, 7
+
+ldi temp, 0xFF
+out DDRA, temp
+
+ldi temp, 0x00
+out PORTA, temp
+wait_ms 500
+ldi temp, 0xFF
+out PORTA, temp
+wait_ms 500
+ldi temp, 0x00
+out PORTA, temp
+wait_ms 500
+ldi temp, 0xFF
+out PORTA, temp
+wait_ms 500
+
+wait_ms 1000
+
+LED_I led_an 
+LED_II led_an
+wait_ms 500
+LED_I led_aus 
+LED_II led_aus
+wait_ms 500
+LED_I led_an
+LED_II led_an
+wait_ms 500
+LED_I led_aus 
+LED_II led_aus
+wait_ms 500
+
 ; Pins einstellen
 ldi temp, LOW(RAMEND)
 out SPL, temp
@@ -80,7 +116,6 @@ sei
 do: rjmp do
 
 loop: 
-cli
 
 // Tasten prüfen
 
@@ -114,7 +149,6 @@ ldi temp, 254
 sts AKTIV, temp
 no_char_receive:
 
-sei
 reti 
 
 .DSEG
