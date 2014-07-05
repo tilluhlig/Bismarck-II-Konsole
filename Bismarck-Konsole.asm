@@ -90,6 +90,8 @@ super_taste_gedrueckt:
 HALLO_BEFEHL befehl_senden
 super_taste_nicht_gedrueckt:
 
+tasten_zustaende_aktualisieren
+
 // Prüfen ob es in der letzten Zeit eine Aktivität gab
 // Wurden Daten Empfangen, lassen wir die LED_I Leuchten
 lds temp, AKTIV
