@@ -149,6 +149,60 @@ sts BEFEHL_SCHREIBPOSITION, temp
 
 
 ;#############################################
+;########### Zeichen an aktuellen ############
+;############## Befehl anhaengen #############
+;#############################################
+;############# Bedarf: 00 Byte, ##############
+;################# 00 Takte ##################
+;#############################################
+.macro befehl_zeichen // zeichen=@0
+lds temp, BEFEHL_SCHREIBPOSITION
+ldi xh, high(BEFEHL_SPEICHER)
+ldi xl, low(BEFEHL_SPEICHER)
+add xl, temp
+adc xh, NULL
+
+schreiben:
+cpi temp, 15
+brsh end_schreiben
+
+ldi temp2,@0
+st X+, temp2
+inc temp
+end_schreiben:
+
+sts BEFEHL_SCHREIBPOSITION, temp
+.endm
+
+
+;#############################################
+;########### Zeichen an aktuellen ############
+;############## Befehl anhaengen #############
+;#############################################
+;############# Bedarf: 00 Byte, ##############
+;################# 00 Takte ##################
+;#############################################
+befehl_zeichen_call: // temp=zeichen
+mov temp2, temp
+
+lds temp, BEFEHL_SCHREIBPOSITION
+ldi xh, high(BEFEHL_SPEICHER)
+ldi xl, low(BEFEHL_SPEICHER)
+add xl, temp
+adc xh, NULL
+
+schreiben:
+cpi temp, 15
+brsh end_schreiben
+
+st X+, temp2
+inc temp
+end_schreiben:
+sts BEFEHL_SCHREIBPOSITION, temp
+ret
+
+
+;#############################################
 ;######## Aktion für HALLO auslösen ##########
 ;#############################################
 ;############# Bedarf: 64+@0 Byte ############
@@ -160,6 +214,66 @@ befehl_in_speicher_schieben HALLO_TEXT
 befehl_auffuellen
 @0
 .endm
+
+
+;#############################################
+;######## Aktion für LICHT auslösen ##########
+;#############################################
+;############# Bedarf: 00+@0 Byte ############
+;############## , 000+@0 Takte ###############
+;#############################################
+.macro LICHT_BEFEHL ; Befehlsmakro=@0, Scheinwerfer=@1, Zustand=@2
+befehl_schreiben_init
+befehl_in_speicher_schieben LICHT_TEXT
+befehl_zeichen 48+@1
+befehl_zeichen ' '
+befehl_zeichen 48+@2
+befehl_auffuellen
+@0
+.endm
+
+
+;#############################################
+;######## Aktion für L auslösen ##########
+;#############################################
+;############# Bedarf: 00+@0 Byte ############
+;############## , 000+@0 Takte ###############
+;#############################################
+.macro L_BEFEHL ; Befehlsmakro=@0, Scheinwerfer=@1, Rot=@2, Gruen=@3, Blau=@4
+befehl_schreiben_init
+befehl_in_speicher_schieben L_TEXT
+befehl_zeichen 48+@1
+befehl_zeichen ' '
+ldi temp, @2
+rcall BinZuAscii
+lds temp, SonstigesAusgabe
+rcall befehl_zeichen_call
+lds temp, SonstigesAusgabe+1
+rcall befehl_zeichen_call
+lds temp, SonstigesAusgabe+2
+rcall befehl_zeichen_call
+
+ldi temp, @3
+rcall BinZuAscii
+lds temp, SonstigesAusgabe
+rcall befehl_zeichen_call
+lds temp, SonstigesAusgabe+1
+rcall befehl_zeichen_call
+lds temp, SonstigesAusgabe+2
+rcall befehl_zeichen_call
+
+ldi temp, @4
+rcall BinZuAscii
+lds temp, SonstigesAusgabe
+rcall befehl_zeichen_call
+lds temp, SonstigesAusgabe+1
+rcall befehl_zeichen_call
+lds temp, SonstigesAusgabe+2
+rcall befehl_zeichen_call
+befehl_auffuellen
+@0
+.endm
+
 
 .DSEG
 BEFEHL_SPEICHER:        .BYTE 15
