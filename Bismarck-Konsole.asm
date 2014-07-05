@@ -38,28 +38,16 @@ mov EINS, temp
 ldi temp, 255
 mov ALL, temp
 
+sts AKTIV, NULL
+sts AKTIV2, NULL
+
+; Pins einstellen
+ldi temp, LOW(RAMEND)
+out SPL, temp
+ldi temp, HIGH(RAMEND)
+out SPH, temp
+
 // Willkommen
-sbi DDRD, 7
-sbi PORTD, 7
-
-ldi temp, 0xFF
-out DDRA, temp
-
-ldi temp, 0x00
-out PORTA, temp
-wait_ms 500
-ldi temp, 0xFF
-out PORTA, temp
-wait_ms 500
-ldi temp, 0x00
-out PORTA, temp
-wait_ms 500
-ldi temp, 0xFF
-out PORTA, temp
-wait_ms 500
-
-wait_ms 1000
-
 LED_I led_an 
 LED_II led_an
 wait_ms 500
@@ -72,12 +60,6 @@ wait_ms 500
 LED_I led_aus 
 LED_II led_aus
 wait_ms 500
-
-; Pins einstellen
-ldi temp, LOW(RAMEND)
-out SPL, temp
-ldi temp, HIGH(RAMEND)
-out SPH, temp
 
 ; Baudrate einstellen
  
@@ -112,7 +94,6 @@ LED_II led_aus
         ldi     temp, 1 << OCIE1A  ; OCIE1A: Interrupt bei Timer Compare
         out     TIMSK, temp
 sei
-
 do: rjmp do
 
 loop: 
@@ -123,6 +104,7 @@ loop:
 SUPER_TASTE pruefe_taste_gedrueckt, super_taste_gedrueckt, super_taste_nicht_gedrueckt
 super_taste_gedrueckt:
 HALLO_BEFEHL befehl_senden
+sts AKTIV2, ALL
 super_taste_nicht_gedrueckt:
 
 tasten_zustaende_aktualisieren
@@ -130,6 +112,7 @@ tasten_zustaende_aktualisieren
 // Prüfen ob es in der letzten Zeit eine Aktivität gab
 // Wurden Daten Empfangen, lassen wir die LED_I Leuchten
 lds temp, AKTIV
+cpi temp, 0
 brne ist_aktiv
 nicht_aktiv:
 LED_I led_aus
@@ -140,16 +123,29 @@ sts AKTIV, temp
 LED_I led_an
 over_aktiv:
 
+// Prüfen ob es in der letzten Zeit eine Aktivität gab
+// Wurden Daten Empfangen, lassen wir die LED_I Leuchten
+lds temp, AKTIV2
+cpi temp, 0
+brne ist_aktiv2
+nicht_aktiv2:
+LED_II led_aus
+rjmp over_aktiv2
+ist_aktiv2:
+dec temp
+sts AKTIV2, temp
+LED_II led_an
+over_aktiv2:
 
 ; UART Empfangen
 sbis     UCSRA, RXC                     
 rjmp     no_char_receive
 in       temp, UDR
-ldi temp, 254
-sts AKTIV, temp
+sts AKTIV, ALL
 no_char_receive:
 
 reti 
 
 .DSEG
 AKTIV:        .BYTE 1
+AKTIV2:        .BYTE 1
