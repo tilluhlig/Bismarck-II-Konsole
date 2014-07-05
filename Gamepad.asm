@@ -1,3 +1,5 @@
+.include "Gamepad_Makros.asm"
+
 .CSEG
 
 // Definition der Turbo-LED

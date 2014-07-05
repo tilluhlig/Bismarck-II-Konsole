@@ -1,3 +1,5 @@
+.include "Befehle_Makros.asm"
+
 .CSEG
 
 // Hier stehen Definitionen zu uebertragbaren Befehlen

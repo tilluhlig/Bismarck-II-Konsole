@@ -1,9 +1,5 @@
 .include "m8515def.inc"
 
-.include "Definitionen.asm"
-.include "Befehle_Makros.asm"
-.include "Gamepad_Makros.asm"
-
 .def temp  = r16
 .def temp2 = r17
 .def temp3 = r18
@@ -29,6 +25,9 @@
 rjmp reset
 .org OC1Aaddr  
 rjmp loop
+
+.include "Befehle.asm"
+.include "Gamepad.asm"
 
 reset:
 ldi temp, 0
@@ -115,8 +114,6 @@ no_char_receive:
 
 sei
 reti 
-
-.include "Befehle.asm"
 
 .DSEG
 AKTIV:        .BYTE 1
