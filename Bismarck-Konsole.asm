@@ -49,10 +49,10 @@ mov ALL, temp
 
 sts AKTIV, NULL
 sts AKTIV2, NULL
-sts SCHEINWERFER, NULL
+/*sts SCHEINWERFER, NULL
 sts SCHEINWERFER_R, NULL
 sts SCHEINWERFER_G, NULL
-sts SCHEINWERFER_B, NULL
+sts SCHEINWERFER_B, NULL*/
 
 ; Pins einstellen
 ldi temp, LOW(RAMEND)
@@ -125,7 +125,8 @@ start_taste_nicht_gedrueckt:
 
 
 // Scheinwerfer einstellen
-.include "Scheinwerfer_einstellen.asm"
+//.include "Scheinwerfer_einstellen.asm"
+.include "auslagerung.asm"
 
 ende_tasten:
 tasten_zustaende_aktualisieren
