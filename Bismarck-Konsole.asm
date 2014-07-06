@@ -94,6 +94,17 @@ wait_ms 500
 LED_I led_aus 
 LED_II led_aus
 
+ldi temp, 18
+ldi zl, low(TASTEN_ZUSTAENDE)
+ldi zh, high(TASTEN_ZUSTAENDE)
+ldi xl, low(TASTEN_ZUSTAENDE_TEMP)
+ldi xh, high(TASTEN_ZUSTAENDE_TEMP)
+nochmal:
+st Z+, NULL
+st X+, NULL
+dec temp
+brne nochmal
+
 //HALLO_BEFEHL befehl_senden
 //SUPER_TASTE pruefe_taste, 0x00, 0x00
 ;Timer 1
@@ -112,6 +123,7 @@ do: rjmp do
 loop: 
 
 // Tasten prüfen
+tasten_zustaende_init
 
 // Starttaste
 START_TASTE pruefe_taste_gedrueckt, start_taste_gedrueckt, start_taste_nicht_gedrueckt

@@ -54,15 +54,17 @@
     sbi @2, @1
     // Ausgang auf 0
     cbi @0, @1
+	wait_ms 1
 
     sbic @3, @5
     rjmp ist_nicht_unten
     ist_unten:
+///	sbi @0,@1
     sts TASTEN_ZUSTAENDE_TEMP+@7, EINS
-    NOP
     rjmp @8
     
     ist_nicht_unten:
+///	sbi @0,@1
     sts TASTEN_ZUSTAENDE_TEMP+@7, NULL
     rjmp @9
 
@@ -89,14 +91,17 @@
     sbi @2, @1
     // Ausgang auf 0
     cbi @0, @1
+	wait_ms 1
 
     sbic @3, @5
     rjmp ist_nicht_unten
     ist_unten:
+///	sbi @0,@1
     sts TASTEN_ZUSTAENDE_TEMP+@7, EINS
     rjmp @9
     
     ist_nicht_unten:
+///	sbi @0,@1
     sts TASTEN_ZUSTAENDE_TEMP+@7, NULL
     rjmp @8
 .endm
@@ -121,7 +126,8 @@
     // out als Ausgang einstellen
     sbi @2, @1
     // Ausgang auf 0
-    cbi @0, @1;8  
+    cbi @0, @1;8
+	wait_ms 1
 
     sbic @3, @5
     rjmp ist_nicht_unten2
@@ -131,16 +137,15 @@
     cpi temp, 0
     brne ist_nicht_unten
 
-    NOP
+///	sbi @0,@1
     rjmp @8
     
     ist_nicht_unten:
+///	sbi @0,@1
     rjmp @9
 
     ist_nicht_unten2:
-	NOP
-	NOP
-	NOP
+///	sbi @0,@1
     sts TASTEN_ZUSTAENDE_TEMP+@7, NULL
     rjmp @9
 
@@ -167,4 +172,20 @@ st X+, temp2
 dec temp
 brne nochmal
 
+.endm
+
+.macro tasten_zustaende_init
+ldi zl, low(TASTEN_ZUSTAENDE_TEMP)
+ldi zh, high(TASTEN_ZUSTAENDE_TEMP)
+
+ldi xl, low(TASTEN_ZUSTAENDE)
+ldi xh, high(TASTEN_ZUSTAENDE)
+
+ldi temp, 18
+nochmal:
+ld temp2, X+
+st Z+, temp2
+
+dec temp
+brne nochmal
 .endm
