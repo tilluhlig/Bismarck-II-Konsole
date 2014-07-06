@@ -111,7 +111,7 @@ inc temp
 cpi temp, 15
 brne senden
 over_senden:
-wait_ms 5
+wait_ms 3
 ret
 
 .macro uart_send; zeichen=@0

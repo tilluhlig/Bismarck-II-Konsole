@@ -52,7 +52,7 @@ ueberlauf:
 ldi temp, 255
 rjmp ende_add
 kein_ueberlauf:
-ldi temp, 15
+ldi temp2, 15
 add temp, temp2
 ende_add:
 st Z, temp
@@ -108,7 +108,7 @@ ueberlauf3:
 ldi temp, 255
 rjmp ende_add3
 kein_ueberlauf3:
-ldi temp, 15
+ldi temp2, 15
 add temp, temp2
 ende_add3:
 st Z, temp
@@ -120,7 +120,7 @@ ueberlauf4:
 ldi temp, 255
 rjmp ende_add4
 kein_ueberlauf4:
-ldi temp, 15
+ldi temp2, 15
 add temp, temp2
 ende_add4:
 st Z, temp
@@ -132,7 +132,7 @@ ueberlauf5:
 ldi temp, 255
 rjmp ende_add5
 kein_ueberlauf5:
-ldi temp, 15
+ldi temp2, 15
 add temp, temp2
 ende_add5:
 st Z, temp
@@ -234,7 +234,7 @@ ueberlauf6:
 ldi temp, 0
 rjmp ende_sub6
 kein_ueberlauf6:
-ldi temp, 15
+ldi temp2, 15
 sub temp, temp2
 ende_sub6:
 st Z, temp
@@ -246,7 +246,7 @@ ueberlauf7:
 ldi temp, 0
 rjmp ende_sub7
 kein_ueberlauf7:
-ldi temp, 15
+ldi temp2, 15
 sub temp, temp2
 ende_sub7:
 st Z, temp
@@ -258,7 +258,7 @@ ueberlauf8:
 ldi temp, 0
 rjmp ende_sub8
 kein_ueberlauf8:
-ldi temp, 15
+ldi temp2, 15
 sub temp, temp2
 ende_sub8:
 st Z, temp
