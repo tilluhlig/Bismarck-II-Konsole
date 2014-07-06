@@ -111,7 +111,7 @@ inc temp
 cpi temp, 15
 brne senden
 over_senden:
-wait_ms 3
+wait_ms 5
 ret
 
 .macro uart_send; zeichen=@0
@@ -198,7 +198,6 @@ ldi xl, low(BEFEHL_SPEICHER)
 add xl, temp
 adc xh, NULL
 
-schreiben2:
 cpi temp, 15
 brsh end_schreiben2
 
@@ -236,7 +235,7 @@ befehl_zeichen 48+@1
 befehl_zeichen ' '
 befehl_zeichen 48+@2
 befehl_auffuellen
-//@0
+@0
 .endm
 
 
@@ -246,25 +245,28 @@ befehl_auffuellen
 ;############# Bedarf: 82+@0 Byte ############
 ;############## , 000+@0 Takte ###############
 ;#############################################
-.macro L_BEFEHL ; Befehlsmakro=@0, Scheinwerfer=@1, Rot=@2, Gruen=@3, Blau=@4
+.macro L_BEFEHL_REGISTER ; Befehlsmakro=@0, Scheinwerfer=@1, Rot=INPUT, Gruen=INPUT2, Blau=INPUT3
 befehl_schreiben_init
 befehl_in_speicher_schieben L_TEXT
 befehl_zeichen 48+@1
 befehl_zeichen ' '
-ldi temp, @2
-mov INPUT, temp
 rcall ZAHL_3BYTE_CALL
-
-ldi temp, @3
-mov INPUT, temp
+mov INPUT, INPUT2
 rcall ZAHL_3BYTE_CALL
-
-ldi temp, @4
-mov INPUT, temp
+mov INPUT, INPUT3
 rcall ZAHL_3BYTE_CALL
-
 befehl_auffuellen
 @0
+.endm
+
+.macro L_BEFEHL ; Befehlsmakro=@0, Scheinwerfer=@1, Rot=@2, Gruen=@3, Blau=@4
+ldi temp, @2
+mov INPUT, temp
+ldi temp, @3
+mov INPUT2, temp
+ldi temp, @4
+mov INPUT3, temp
+L_BEFEHL_REGISTER @0,@1
 .endm
 
 
