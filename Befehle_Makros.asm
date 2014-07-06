@@ -252,34 +252,100 @@ befehl_in_speicher_schieben L_TEXT
 befehl_zeichen 48+@1
 befehl_zeichen ' '
 ldi temp, @2
-rcall BinZuAscii
-lds temp, SonstigesAusgabe
-rcall befehl_zeichen_call
-lds temp, SonstigesAusgabe+1
-rcall befehl_zeichen_call
-lds temp, SonstigesAusgabe+2
-rcall befehl_zeichen_call
+mov INPUT, temp
+rcall ZAHL_3BYTE_CALL
 
 ldi temp, @3
-rcall BinZuAscii
-lds temp, SonstigesAusgabe
-rcall befehl_zeichen_call
-lds temp, SonstigesAusgabe+1
-rcall befehl_zeichen_call
-lds temp, SonstigesAusgabe+2
-rcall befehl_zeichen_call
+mov INPUT, temp
+rcall ZAHL_3BYTE_CALL
 
 ldi temp, @4
-rcall BinZuAscii
-lds temp, SonstigesAusgabe
-rcall befehl_zeichen_call
-lds temp, SonstigesAusgabe+1
-rcall befehl_zeichen_call
-lds temp, SonstigesAusgabe+2
-rcall befehl_zeichen_call
+mov INPUT, temp
+rcall ZAHL_3BYTE_CALL
+
 befehl_auffuellen
 @0
 .endm
+
+
+;#############################################
+;####### Aktion für LICHTR auslösen ##########
+;#############################################
+;############# Bedarf: 52+@0 Byte ############
+;############## , 000+@0 Takte ###############
+;#############################################
+.macro LICHTR_BEFEHL_REGISTER; Befehlsmakro=@0, Scheinwerfer=@1, Rot=INPUT
+befehl_schreiben_init
+befehl_in_speicher_schieben LICHTR_TEXT
+befehl_zeichen 48+@1
+befehl_zeichen ' '
+rcall ZAHL_3BYTE_CALL
+befehl_auffuellen
+@0
+.endm
+
+.macro LICHTR_BEFEHL ; Befehlsmakro=@0, Scheinwerfer=@1, Rot=@2
+ldi temp, @2
+mov INPUT, temp
+LICHTR_BEFEHL_REGISTER @0, @1
+.endm
+
+
+;#############################################
+;####### Aktion für LICHTG auslösen ##########
+;#############################################
+;############# Bedarf: 52+@0 Byte ############
+;############## , 000+@0 Takte ###############
+;#############################################
+.macro LICHTG_BEFEHL_REGISTER; Befehlsmakro=@0, Scheinwerfer=@1, Gruen=INPUT
+befehl_schreiben_init
+befehl_in_speicher_schieben LICHTG_TEXT
+befehl_zeichen 48+@1
+befehl_zeichen ' '
+rcall ZAHL_3BYTE_CALL
+befehl_auffuellen
+@0
+.endm
+
+.macro LICHTG_BEFEHL ; Befehlsmakro=@0, Scheinwerfer=@1, Gruen=@2
+ldi temp, @2
+mov INPUT, temp
+LICHTG_BEFEHL_REGISTER @0, @1
+.endm
+
+
+;#############################################
+;####### Aktion für LICHTB auslösen ##########
+;#############################################
+;############# Bedarf: 52+@0 Byte ############
+;############## , 000+@0 Takte ###############
+;#############################################
+.macro LICHTB_BEFEHL_REGISTER; Befehlsmakro=@0, Scheinwerfer=@1, Blau=INPUT
+befehl_schreiben_init
+befehl_in_speicher_schieben LICHTB_TEXT
+befehl_zeichen 48+@1
+befehl_zeichen ' '
+rcall ZAHL_3BYTE_CALL
+befehl_auffuellen
+@0
+.endm
+
+.macro LICHTB_BEFEHL ; Befehlsmakro=@0, Scheinwerfer=@1, Blau=@2
+ldi temp, @2
+mov INPUT, temp
+LICHTB_BEFEHL_REGISTER @0, @1
+.endm
+
+ZAHL_3BYTE_CALL:
+mov temp, INPUT
+rcall BinZuAscii
+lds temp, SonstigesAusgabe
+rcall befehl_zeichen_call
+lds temp, SonstigesAusgabe+1
+rcall befehl_zeichen_call
+lds temp, SonstigesAusgabe+2
+rcall befehl_zeichen_call
+ret
 
 
 .DSEG
