@@ -111,7 +111,7 @@ inc temp
 cpi temp, 15
 brne senden
 over_senden:
-wait_ms 5
+wait_ms 3
 ret
 
 .macro uart_send; zeichen=@0
@@ -334,6 +334,15 @@ befehl_auffuellen
 ldi temp, @2
 mov INPUT, temp
 LICHTB_BEFEHL_REGISTER @0, @1
+.endm
+
+
+.macro ANTWORT_BEFEHL ; Befehlsmakro=@0, Zustand=@1
+befehl_schreiben_init
+befehl_in_speicher_schieben ANTWORT_TEXT
+befehl_zeichen 48+@1
+befehl_auffuellen
+@0
 .endm
 
 ZAHL_3BYTE_CALL:

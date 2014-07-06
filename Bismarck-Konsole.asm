@@ -118,7 +118,7 @@ START_TASTE pruefe_taste_gedrueckt, start_taste_gedrueckt, start_taste_nicht_ged
 start_taste_gedrueckt:
 
 sts SCHEINWERFER, EINS
-//ANTWORT_BEFEHL befehl_senden, 1
+ANTWORT_BEFEHL befehl_senden, 1
 sts AKTIV2, ALL
 rjmp ende_tasten
 start_taste_nicht_gedrueckt:
