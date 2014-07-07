@@ -58,11 +58,9 @@ cpi temp4,0
 breq rot_einstellen
 rjmp nicht_rot_einstellen
 rot_einstellen:
-LICHTR_BEFEHL_REGISTER befehl_senden, 1
-LICHTR_BEFEHL_REGISTER befehl_senden, 2
-LICHTR_BEFEHL_REGISTER befehl_senden, 3
-LICHTR_BEFEHL_REGISTER befehl_senden, 4
-LICHTR_BEFEHL_REGISTER befehl_senden, 5
+
+rcall LICHTR_alle_scheinwerfer
+
 rjmp ende_farbe_einstellen
 nicht_rot_einstellen:
 
@@ -70,11 +68,9 @@ cpi temp4,1
 breq gruen_einstellen
 rjmp nicht_gruen_einstellen
 gruen_einstellen:
-LICHTG_BEFEHL_REGISTER befehl_senden, 1
-LICHTG_BEFEHL_REGISTER befehl_senden, 2
-LICHTG_BEFEHL_REGISTER befehl_senden, 3
-LICHTG_BEFEHL_REGISTER befehl_senden, 4
-LICHTG_BEFEHL_REGISTER befehl_senden, 5
+
+rcall LICHTG_alle_scheinwerfer
+
 rjmp ende_farbe_einstellen
 nicht_gruen_einstellen:
 
@@ -82,11 +78,9 @@ cpi temp4,2
 breq blau_einstellen
 rjmp nicht_blau_einstellen
 blau_einstellen:
-LICHTB_BEFEHL_REGISTER befehl_senden, 1
-LICHTB_BEFEHL_REGISTER befehl_senden, 2
-LICHTB_BEFEHL_REGISTER befehl_senden, 3
-LICHTB_BEFEHL_REGISTER befehl_senden, 4
-LICHTB_BEFEHL_REGISTER befehl_senden, 5
+
+rcall LICHTB_alle_scheinwerfer
+
 rjmp ende_farbe_einstellen
 nicht_blau_einstellen:
 
@@ -118,16 +112,8 @@ kein_ueberlauf3:
 st Z+, temp
 mov INPUT3, temp
 
-L_BEFEHL_REGISTER befehl_senden, 1
-L_BEFEHL_REGISTER befehl_senden, 2
-L_BEFEHL_REGISTER befehl_senden, 3
-L_BEFEHL_REGISTER befehl_senden, 4
-L_BEFEHL_REGISTER befehl_senden, 5
-LICHT_BEFEHL befehl_senden, 1, 1
-LICHT_BEFEHL befehl_senden, 2, 1
-LICHT_BEFEHL befehl_senden, 3, 1
-LICHT_BEFEHL befehl_senden, 4, 1
-LICHT_BEFEHL befehl_senden, 5, 1
+rcall L_alle_scheinwerfer
+rcall LICHT_alle_scheinwerfer_an
 
 rjmp ende_farbe_einstellen
 
@@ -164,11 +150,9 @@ cpi temp4,0
 breq rot_einstellen2
 rjmp nicht_rot_einstellen2
 rot_einstellen2:
-LICHTR_BEFEHL_REGISTER befehl_senden, 1
-LICHTR_BEFEHL_REGISTER befehl_senden, 2
-LICHTR_BEFEHL_REGISTER befehl_senden, 3
-LICHTR_BEFEHL_REGISTER befehl_senden, 4
-LICHTR_BEFEHL_REGISTER befehl_senden, 5
+
+rcall LICHTR_alle_scheinwerfer
+
 rjmp ende_farbe_einstellen2
 nicht_rot_einstellen2:
 
@@ -176,11 +160,9 @@ cpi temp4,1
 breq gruen_einstellen2
 rjmp nicht_gruen_einstellen2
 gruen_einstellen2:
-LICHTG_BEFEHL_REGISTER befehl_senden, 1
-LICHTG_BEFEHL_REGISTER befehl_senden, 2
-LICHTG_BEFEHL_REGISTER befehl_senden, 3
-LICHTG_BEFEHL_REGISTER befehl_senden, 4
-LICHTG_BEFEHL_REGISTER befehl_senden, 5
+
+rcall LICHTG_alle_scheinwerfer
+
 rjmp ende_farbe_einstellen2
 nicht_gruen_einstellen2:
 
@@ -188,11 +170,9 @@ cpi temp4,2
 breq blau_einstellen2
 rjmp nicht_blau_einstellen2
 blau_einstellen2:
-LICHTB_BEFEHL_REGISTER befehl_senden, 1
-LICHTB_BEFEHL_REGISTER befehl_senden, 2
-LICHTB_BEFEHL_REGISTER befehl_senden, 3
-LICHTB_BEFEHL_REGISTER befehl_senden, 4
-LICHTB_BEFEHL_REGISTER befehl_senden, 5
+
+rcall LICHTB_alle_scheinwerfer
+
 rjmp ende_farbe_einstellen2
 nicht_blau_einstellen2:
 
@@ -224,16 +204,9 @@ kein_ueberlauf8:
 st Z+, temp
 mov INPUT3, temp
 
-L_BEFEHL_REGISTER befehl_senden, 1
-L_BEFEHL_REGISTER befehl_senden, 2
-L_BEFEHL_REGISTER befehl_senden, 3
-L_BEFEHL_REGISTER befehl_senden, 4
-L_BEFEHL_REGISTER befehl_senden, 5
-LICHT_BEFEHL befehl_senden, 1, 1
-LICHT_BEFEHL befehl_senden, 2, 1
-LICHT_BEFEHL befehl_senden, 3, 1
-LICHT_BEFEHL befehl_senden, 4, 1
-LICHT_BEFEHL befehl_senden, 5, 1
+
+rcall L_alle_scheinwerfer
+rcall LICHT_alle_scheinwerfer_an
 
 rjmp ende_farbe_einstellen2
 
@@ -261,22 +234,18 @@ rjmp schweinwerfer_einschalten
 scheinwerfer_ausschalten:
 // alle Scheinwerfer ausschalten
 sts SCHEINWERFER, NULL
-LICHT_BEFEHL befehl_senden,1,0
-LICHT_BEFEHL befehl_senden,2,0
-LICHT_BEFEHL befehl_senden,3,0
-LICHT_BEFEHL befehl_senden,4,0
-LICHT_BEFEHL befehl_senden,5,0
+
+rcall LICHT_alle_scheinwerfer_aus
+
 sts AKTIV2, ALL
 rjmp ende_tasten
 rjmp scheinwerfer_schalten_ende
 schweinwerfer_einschalten:
 // alle Scheinwerfer einschalten
 sts SCHEINWERFER, EINS
-LICHT_BEFEHL befehl_senden, 1, 1
-LICHT_BEFEHL befehl_senden, 2, 1
-LICHT_BEFEHL befehl_senden, 3, 1
-LICHT_BEFEHL befehl_senden, 4, 1
-LICHT_BEFEHL befehl_senden, 5, 1
+
+rcall LICHT_alle_scheinwerfer_an
+
 sts AKTIV2, ALL
 rjmp ende_tasten
 scheinwerfer_schalten_ende:

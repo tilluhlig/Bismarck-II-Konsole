@@ -223,7 +223,7 @@ ret
 .macro HALLO_BEFEHL ; Befehlsmakro=@0
 befehl_schreiben_init
 befehl_in_speicher_schieben HALLO_TEXT
-befehl_auffuellen
+///befehl_auffuellen
 @0
 .endm
 
@@ -240,10 +240,25 @@ befehl_in_speicher_schieben LICHT_TEXT
 befehl_zeichen 48+@1
 befehl_zeichen ' '
 befehl_zeichen 48+@2
-befehl_auffuellen
+///befehl_auffuellen
 @0
 .endm
 
+LICHT_alle_scheinwerfer_aus:
+LICHT_BEFEHL befehl_senden,1,0
+LICHT_BEFEHL befehl_senden,2,0
+LICHT_BEFEHL befehl_senden,3,0
+LICHT_BEFEHL befehl_senden,4,0
+LICHT_BEFEHL befehl_senden,5,0
+ret
+
+LICHT_alle_scheinwerfer_an:
+LICHT_BEFEHL befehl_senden,1,1
+LICHT_BEFEHL befehl_senden,2,1
+LICHT_BEFEHL befehl_senden,3,1
+LICHT_BEFEHL befehl_senden,4,1
+LICHT_BEFEHL befehl_senden,5,1
+ret
 
 ;#############################################
 ;######## Aktion für L auslösen ##########
@@ -262,7 +277,7 @@ mov INPUT, INPUT2
 rcall ZAHL_3BYTE_CALL
 mov INPUT, INPUT3
 rcall ZAHL_3BYTE_CALL
-befehl_auffuellen
+///befehl_auffuellen
 pop INPUT
 @0
 .endm
@@ -277,6 +292,14 @@ mov INPUT3, temp
 L_BEFEHL_REGISTER @0,@1
 .endm
 
+L_alle_scheinwerfer:
+L_BEFEHL_REGISTER befehl_senden, 1
+L_BEFEHL_REGISTER befehl_senden, 2
+L_BEFEHL_REGISTER befehl_senden, 3
+L_BEFEHL_REGISTER befehl_senden, 4
+L_BEFEHL_REGISTER befehl_senden, 5
+ret
+
 
 ;#############################################
 ;####### Aktion für LICHTR auslösen ##########
@@ -290,7 +313,7 @@ befehl_in_speicher_schieben LICHTR_TEXT
 befehl_zeichen 48+@1
 befehl_zeichen ' '
 rcall ZAHL_3BYTE_CALL
-befehl_auffuellen
+///befehl_auffuellen
 @0
 .endm
 
@@ -300,6 +323,13 @@ mov INPUT, temp
 LICHTR_BEFEHL_REGISTER @0, @1
 .endm
 
+LICHTR_alle_scheinwerfer:
+LICHTR_BEFEHL_REGISTER befehl_senden, 1
+LICHTR_BEFEHL_REGISTER befehl_senden, 2
+LICHTR_BEFEHL_REGISTER befehl_senden, 3
+LICHTR_BEFEHL_REGISTER befehl_senden, 4
+LICHTR_BEFEHL_REGISTER befehl_senden, 5
+ret
 
 ;#############################################
 ;####### Aktion für LICHTG auslösen ##########
@@ -313,7 +343,7 @@ befehl_in_speicher_schieben LICHTG_TEXT
 befehl_zeichen 48+@1
 befehl_zeichen ' '
 rcall ZAHL_3BYTE_CALL
-befehl_auffuellen
+///befehl_auffuellen
 @0
 .endm
 
@@ -323,6 +353,13 @@ mov INPUT, temp
 LICHTG_BEFEHL_REGISTER @0, @1
 .endm
 
+LICHTG_alle_scheinwerfer:
+LICHTG_BEFEHL_REGISTER befehl_senden, 1
+LICHTG_BEFEHL_REGISTER befehl_senden, 2
+LICHTG_BEFEHL_REGISTER befehl_senden, 3
+LICHTG_BEFEHL_REGISTER befehl_senden, 4
+LICHTG_BEFEHL_REGISTER befehl_senden, 5
+ret
 
 ;#############################################
 ;####### Aktion für LICHTB auslösen ##########
@@ -346,12 +383,20 @@ mov INPUT, temp
 LICHTB_BEFEHL_REGISTER @0, @1
 .endm
 
+LICHTB_alle_scheinwerfer:
+LICHTB_BEFEHL_REGISTER befehl_senden, 1
+LICHTB_BEFEHL_REGISTER befehl_senden, 2
+LICHTB_BEFEHL_REGISTER befehl_senden, 3
+LICHTB_BEFEHL_REGISTER befehl_senden, 4
+LICHTB_BEFEHL_REGISTER befehl_senden, 5
+ret
+
 
 .macro ANTWORT_BEFEHL ; Befehlsmakro=@0, Zustand=@1
 befehl_schreiben_init
 befehl_in_speicher_schieben ANTWORT_TEXT
 befehl_zeichen 48+@1
-befehl_auffuellen
+///befehl_auffuellen
 @0
 .endm
 
