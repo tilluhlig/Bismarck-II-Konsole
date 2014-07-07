@@ -45,23 +45,19 @@ ldi zl, low(SCHEINWERFER_R)
 ldi zh, high(SCHEINWERFER_R)
 add zl, temp4
 adc zh, NULL
-ld temp, Z
-cpi temp, 241
-brlo kein_ueberlauf
-ueberlauf:
-ldi temp, 255
-rjmp ende_add
-kein_ueberlauf:
 ldi temp2, 15
+ld temp, Z
 add temp, temp2
-ende_add:
+brcc kein_ueberlauf2
+mov temp, ALL
+kein_ueberlauf2:
 st Z, temp
+mov INPUT, temp
 
 cpi temp4,0
 breq rot_einstellen
 rjmp nicht_rot_einstellen
 rot_einstellen:
-mov INPUT, temp
 LICHTR_BEFEHL_REGISTER befehl_senden, 1
 LICHTR_BEFEHL_REGISTER befehl_senden, 2
 LICHTR_BEFEHL_REGISTER befehl_senden, 3
@@ -74,7 +70,6 @@ cpi temp4,1
 breq gruen_einstellen
 rjmp nicht_gruen_einstellen
 gruen_einstellen:
-mov INPUT, temp
 LICHTG_BEFEHL_REGISTER befehl_senden, 1
 LICHTG_BEFEHL_REGISTER befehl_senden, 2
 LICHTG_BEFEHL_REGISTER befehl_senden, 3
@@ -87,7 +82,6 @@ cpi temp4,2
 breq blau_einstellen
 rjmp nicht_blau_einstellen
 blau_einstellen:
-mov INPUT, temp
 LICHTB_BEFEHL_REGISTER befehl_senden, 1
 LICHTB_BEFEHL_REGISTER befehl_senden, 2
 LICHTB_BEFEHL_REGISTER befehl_senden, 3
@@ -101,41 +95,27 @@ alle_farben_einstellen:
 // alle farben einstellen
 ldi zl, low(SCHEINWERFER_R)
 ldi zh, high(SCHEINWERFER_R)
-ld temp, Z+
-cpi temp, 241
-brlo kein_ueberlauf3
-ueberlauf3:
-ldi temp, 255
-rjmp ende_add3
-kein_ueberlauf3:
 ldi temp2, 15
+ld temp, Z
 add temp, temp2
-ende_add3:
-st Z, temp
-mov INPUT, temp
-ld temp, Z+
-cpi temp, 241
-brlo kein_ueberlauf4
-ueberlauf4:
-ldi temp, 255
-rjmp ende_add4
-kein_ueberlauf4:
-ldi temp2, 15
-add temp, temp2
-ende_add4:
-st Z, temp
-mov INPUT2, temp
-ld temp, Z+
-cpi temp, 241
-brlo kein_ueberlauf5
-ueberlauf5:
-ldi temp, 255
-rjmp ende_add5
+brcc kein_ueberlauf5
+mov temp, ALL
 kein_ueberlauf5:
-ldi temp2, 15
+st Z+, temp
+mov INPUT, temp
+ld temp, Z
 add temp, temp2
-ende_add5:
-st Z, temp
+brcc kein_ueberlauf4
+mov temp, ALL
+kein_ueberlauf4:
+st Z+, temp
+mov INPUT2, temp
+ld temp, Z
+add temp, temp2
+brcc kein_ueberlauf3
+mov temp, ALL
+kein_ueberlauf3:
+st Z+, temp
 mov INPUT3, temp
 
 L_BEFEHL_REGISTER befehl_senden, 1
@@ -171,23 +151,19 @@ ldi zl, low(SCHEINWERFER_R)
 ldi zh, high(SCHEINWERFER_R)
 add zl, temp4
 adc zh, NULL
-ld temp, Z
-cpi temp, 15
-brsh kein_ueberlauf2
-ueberlauf2:
-ldi temp, 0
-rjmp ende_sub2
-kein_ueberlauf2:
 ldi temp2, 15
+ld temp, Z
 sub temp, temp2
-ende_sub2:
-st Z, temp
+brcc kein_ueberlauf1
+mov temp, NULL
+kein_ueberlauf1:
+st Z+, temp
+mov INPUT, temp
 
 cpi temp4,0
 breq rot_einstellen2
 rjmp nicht_rot_einstellen2
 rot_einstellen2:
-mov INPUT, temp
 LICHTR_BEFEHL_REGISTER befehl_senden, 1
 LICHTR_BEFEHL_REGISTER befehl_senden, 2
 LICHTR_BEFEHL_REGISTER befehl_senden, 3
@@ -200,7 +176,6 @@ cpi temp4,1
 breq gruen_einstellen2
 rjmp nicht_gruen_einstellen2
 gruen_einstellen2:
-mov INPUT, temp
 LICHTG_BEFEHL_REGISTER befehl_senden, 1
 LICHTG_BEFEHL_REGISTER befehl_senden, 2
 LICHTG_BEFEHL_REGISTER befehl_senden, 3
@@ -213,7 +188,6 @@ cpi temp4,2
 breq blau_einstellen2
 rjmp nicht_blau_einstellen2
 blau_einstellen2:
-mov INPUT, temp
 LICHTB_BEFEHL_REGISTER befehl_senden, 1
 LICHTB_BEFEHL_REGISTER befehl_senden, 2
 LICHTB_BEFEHL_REGISTER befehl_senden, 3
@@ -227,41 +201,27 @@ alle_farben_einstellen2:
 // alle farben einstellen
 ldi zl, low(SCHEINWERFER_R)
 ldi zh, high(SCHEINWERFER_R)
-ld temp, Z+
-cpi temp, 15
-brsh kein_ueberlauf6
-ueberlauf6:
-ldi temp, 0
-rjmp ende_sub6
+ldi temp2, 15
+ld temp, Z
+sub temp, temp2
+brcc kein_ueberlauf6
+mov temp, NULL
 kein_ueberlauf6:
-ldi temp2, 15
-sub temp, temp2
-ende_sub6:
-st Z, temp
+st Z+, temp
 mov INPUT, temp
-ld temp, Z+
-cpi temp, 15
-brsh kein_ueberlauf7
-ueberlauf7:
-ldi temp, 0
-rjmp ende_sub7
+ld temp, Z
+sub temp, temp2
+brcc kein_ueberlauf7
+mov temp, NULL
 kein_ueberlauf7:
-ldi temp2, 15
-sub temp, temp2
-ende_sub7:
-st Z, temp
+st Z+, temp
 mov INPUT2, temp
-ld temp, Z+
-cpi temp, 15
-brsh kein_ueberlauf8
-ueberlauf8:
-ldi temp, 0
-rjmp ende_sub8
-kein_ueberlauf8:
-ldi temp2, 15
+ld temp, Z
 sub temp, temp2
-ende_sub8:
-st Z, temp
+brcc kein_ueberlauf8
+mov temp, NULL
+kein_ueberlauf8:
+st Z+, temp
 mov INPUT3, temp
 
 L_BEFEHL_REGISTER befehl_senden, 1

@@ -21,3 +21,16 @@ DREHZAHL_TEXT:    .db "drehzahl ",0 // drehzahl 1      ---Drehzahl abfragen
 INTERVAL_TEXT:    .db "interval ",0 // interval 99 255 ---Interval einstellen f?r Messwert?bertragung - 0 = Aus, Einstellen in 16 = 1s (max. 15s)
 NEU_MESS_TEXT:    .db "neu_mess ",0 // neu_mess 99 1   ---Einstellen, ob Messwerte im Interval nur, wenn wert ver?ndert
 ANTWORT_TEXT:     .db "antwort ",0 // antwort 1       ---Einstellen, ob nur Antworten mit Messwerten ?bertragen werden
+
+HOCH_TASTE_TEXT:   .db "HOCH_TASTE     ",0
+RUNTER_TASTE_TEXT: .db "RUNTER_TASTE   ",0
+LINKS_TASTE_TEXT:  .db "LINKS_TASTE    ",0
+RECHTS_TASTE_TEXT: .db "RECHTS_TASTE   ",0
+EINS_TASTE_TEXT:   .db "EINS_TASTE     ",0
+ZWEI_TASTE_TEXT:   .db "ZWEI_TASTE     ",0
+DREI_TASTE_TEXT:   .db "DREI_TASTE     ",0
+VIER_TASTE_TEXT:   .db "VIER_TASTE     ",0
+L_EINS_TASTE_TEXT: .db "L_EINS_TASTE   ",0
+L_ZWEI_TASTE_TEXT: .db "L_ZWEI_TASTE   ",0
+R_EINS_TASTE_TEXT: .db "R_EINS_TASTE   ",0
+R_ZWEI_TASTE_TEXT: .db "R_ZWEI_TASTE   ",0

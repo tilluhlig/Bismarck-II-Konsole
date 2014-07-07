@@ -250,12 +250,14 @@ befehl_schreiben_init
 befehl_in_speicher_schieben L_TEXT
 befehl_zeichen 48+@1
 befehl_zeichen ' '
+push INPUT
 rcall ZAHL_3BYTE_CALL
 mov INPUT, INPUT2
 rcall ZAHL_3BYTE_CALL
 mov INPUT, INPUT3
 rcall ZAHL_3BYTE_CALL
 befehl_auffuellen
+pop INPUT
 @0
 .endm
 

@@ -32,6 +32,9 @@
     sbi @3,@5
     sbi @4,@5
 
+//	cbi @3,@5
+//	cbi @4,@5
+
 .endm
 
 ;#############################################
@@ -54,7 +57,12 @@
     sbi @2, @1
     // Ausgang auf 0
     cbi @0, @1
-	wait_ms 1
+
+	NOP
+	NOP
+	NOP
+	NOP
+	NOP
 
     sbic @3, @5
     rjmp ist_nicht_unten
@@ -91,7 +99,12 @@
     sbi @2, @1
     // Ausgang auf 0
     cbi @0, @1
-	wait_ms 1
+
+	NOP
+	NOP
+	NOP
+	NOP
+	NOP
 
     sbic @3, @5
     rjmp ist_nicht_unten
@@ -127,7 +140,12 @@
     sbi @2, @1
     // Ausgang auf 0
     cbi @0, @1;8
-	wait_ms 1
+
+	NOP
+	NOP
+	NOP
+	NOP
+	NOP
 
     sbic @3, @5
     rjmp ist_nicht_unten2
@@ -137,15 +155,21 @@
     cpi temp, 0
     brne ist_nicht_unten
 
-///	sbi @0,@1
+///	cbi @4,@5
+///	cbi @2,@1
+///	cbi @0,@1
     rjmp @8
     
     ist_nicht_unten:
-///	sbi @0,@1
+///	cbi @4,@5
+///	cbi @2,@1
+///	cbi @0,@1
     rjmp @9
 
     ist_nicht_unten2:
-///	sbi @0,@1
+///	cbi @4,@5
+///	cbi @2,@1
+///	cbi @0,@1
     sts TASTEN_ZUSTAENDE_TEMP+@7, NULL
     rjmp @9
 
