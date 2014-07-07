@@ -146,103 +146,10 @@ sts AKTIV2, ALL
 rjmp ende_tasten
 start_taste_nicht_gedrueckt:
 
-/*L_ZWEI_TASTE pruefe_taste_gedrueckt, l_zwei_taste_gedrueckt, rechts_taste_nicht_gedrueckt
-l_zwei_taste_gedrueckt:
-EINS_TASTE pruefe_taste_gedrueckt, eins_taste_gedrueckt, rechts_taste_nicht_gedrueckt
-eins_taste_gedrueckt:
-RECHTS_TASTE pruefe_taste_gedrueckt, rechts_taste_gedrueckt,rechts_taste_nicht_gedrueckt 
-rechts_taste_gedrueckt:
-befehl_schreiben_init
-befehl_in_speicher_schieben RECHTS_TASTE_TEXT
-befehl_senden
-rechts_taste_nicht_gedrueckt:*/
-
 // Scheinwerfer einstellen
 .include "Scheinwerfer_einstellen.asm"
-
-/*EINS_TASTE pruefe_taste_gedrueckt, eins_taste_gedrueckt, eins_taste_nicht_gedrueckt
-eins_taste_gedrueckt:
-befehl_schreiben_init
-befehl_in_speicher_schieben EINS_TASTE_TEXT
-befehl_senden
-eins_taste_nicht_gedrueckt:
-
-ZWEI_TASTE pruefe_taste_gedrueckt, zwei_taste_gedrueckt, zwei_taste_nicht_gedrueckt
-zwei_taste_gedrueckt:
-befehl_schreiben_init
-befehl_in_speicher_schieben ZWEI_TASTE_TEXT
-befehl_senden
-zwei_taste_nicht_gedrueckt:
-
-DREI_TASTE pruefe_taste_gedrueckt, drei_taste_gedrueckt, drei_taste_nicht_gedrueckt
-drei_taste_gedrueckt:
-befehl_schreiben_init
-befehl_in_speicher_schieben DREI_TASTE_TEXT
-befehl_senden
-drei_taste_nicht_gedrueckt:
-
-VIER_TASTE pruefe_taste_gedrueckt, vier_taste_gedrueckt, vier_taste_nicht_gedrueckt
-vier_taste_gedrueckt:
-befehl_schreiben_init
-befehl_in_speicher_schieben VIER_TASTE_TEXT
-befehl_senden
-vier_taste_nicht_gedrueckt:
-
-L_EINS_TASTE pruefe_taste_gedrueckt, l_eins_taste_gedrueckt, l_eins_taste_nicht_gedrueckt
-l_eins_taste_gedrueckt:
-befehl_schreiben_init
-befehl_in_speicher_schieben L_EINS_TASTE_TEXT
-befehl_senden
-l_eins_taste_nicht_gedrueckt:
-
-L_ZWEI_TASTE pruefe_taste_gedrueckt, l_zwei_taste_gedrueckt, l_zwei_taste_nicht_gedrueckt
-l_zwei_taste_gedrueckt:
-befehl_schreiben_init
-befehl_in_speicher_schieben L_ZWEI_TASTE_TEXT
-befehl_senden
-l_zwei_taste_nicht_gedrueckt:
-
-R_EINS_TASTE pruefe_taste_gedrueckt, r_eins_taste_gedrueckt, r_eins_taste_nicht_gedrueckt
-r_eins_taste_gedrueckt:
-befehl_schreiben_init
-befehl_in_speicher_schieben R_EINS_TASTE_TEXT
-befehl_senden
-r_eins_taste_nicht_gedrueckt:
-
-R_ZWEI_TASTE pruefe_taste_gedrueckt, r_zwei_taste_gedrueckt, r_zwei_taste_nicht_gedrueckt
-r_zwei_taste_gedrueckt:
-befehl_schreiben_init
-befehl_in_speicher_schieben R_ZWEI_TASTE_TEXT
-befehl_senden
-r_zwei_taste_nicht_gedrueckt:
-
-HOCH_TASTE pruefe_taste_gedrueckt, hoch_taste_gedrueckt, hoch_taste_nicht_gedrueckt
-hoch_taste_gedrueckt:
-befehl_schreiben_init
-befehl_in_speicher_schieben HOCH_TASTE_TEXT
-befehl_senden
-hoch_taste_nicht_gedrueckt:
-
-RUNTER_TASTE pruefe_taste_gedrueckt, runter_taste_gedrueckt, runter_taste_nicht_gedrueckt
-runter_taste_gedrueckt:
-befehl_schreiben_init
-befehl_in_speicher_schieben RUNTER_TASTE_TEXT
-befehl_senden
-runter_taste_nicht_gedrueckt:
-
-LINKS_TASTE pruefe_taste_gedrueckt, links_taste_gedrueckt, links_taste_nicht_gedrueckt
-links_taste_gedrueckt:
-befehl_schreiben_init
-befehl_in_speicher_schieben LINKS_TASTE_TEXT
-befehl_senden
-links_taste_nicht_gedrueckt:
-
-RECHTS_TASTE pruefe_taste_gedrueckt, rechts_taste_gedrueckt, rechts_taste_nicht_gedrueckt
-rechts_taste_gedrueckt:
-befehl_schreiben_init
-befehl_in_speicher_schieben RECHTS_TASTE_TEXT
-befehl_senden
-rechts_taste_nicht_gedrueckt:*/
+.include "Schornstein_einstellen.asm"
+.include "Haupttuerme_einstellen.asm"
 
 ende_tasten:
 tasten_zustaende_aktualisieren
