@@ -97,9 +97,15 @@ befehl_senden2:
 ldi xh, high(BEFEHL_SPEICHER)
 ldi xl, low(BEFEHL_SPEICHER)
 ldi temp,0
+lds temp3, BEFEHL_SCHREIBPOSITION
 
 senden:
 ld temp2, X+
+
+cp temp, temp3
+brlo ist_belegt
+ldi temp2, ' '
+ist_belegt:
 
 ; UART senden
 warten:

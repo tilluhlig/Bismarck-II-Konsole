@@ -41,39 +41,16 @@
 ;######### prueft, ob eine Taste #############
 ;################ unten ist ##################
 ;#############################################
-;######## Bedarf: 24 Byte, 15 Takte ##########
+;######## Bedarf: 10 Byte, 00 Takte ##########
 ;#############################################
 .macro pruefe_taste_unten
-// Aufruf: outPort=@0, outPin=@1, outReg=@2, inPort=@3, inPort2=@4, inPin=@5, inReg=@6, ID=@7, THEN=@8, ELSE=@9
+// Aufruf: reset=@0, outPort=@1, outPin=@2, outReg=@3, inPort=@4, inPort2=@5, inPin=@6, inReg=@7, ID=@8, THEN=@9, ELSE=@10
 // oder
-// Aufruf: TASTE, THEN=@8, ELSE=@9
+// Aufruf: TASTE, THEN=@9, ELSE=@10
 
-    // in als Eingang einstellen
-    cbi @6,@5
-    // Pull-Up Widerstand einschalten
-    sbi @4,@5
-
-    // out als Ausgang einstellen
-    sbi @2, @1
-    // Ausgang auf 0
-    cbi @0, @1
-
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-
-    sbic @3, @5
-    rjmp ist_nicht_unten
-    ist_unten:
-///	sbi @0,@1
-    sts TASTEN_ZUSTAENDE_TEMP+@7, EINS
-    rjmp @8
-    
-    ist_nicht_unten:
-///	sbi @0,@1
-    sts TASTEN_ZUSTAENDE_TEMP+@7, NULL
+    lds temp, TASTEN_ZUSTAENDE_TEMP+@8
+    sbrs temp, 0
+    rjmp @10
     rjmp @9
 
 .endm
@@ -83,40 +60,18 @@
 ;######### prueft, ob eine Taste #############
 ;################ oben ist ###################
 ;#############################################
-;######## Bedarf: 24 Byte, 15 Takte ##########
+;######## Bedarf: 10 Byte, 00 Takte ##########
 ;#############################################
 .macro pruefe_taste_oben
-// Aufruf: outPort=@0, outPin=@1, outReg=@2, inPort=@3, inPort2=@4, inPin=@5, inReg=@6, ID=@7, THEN=@8, ELSE=@9
+// Aufruf: reset=@0, outPort=@1, outPin=@2, outReg=@3, inPort=@4, inPort2=@5, inPin=@6, inReg=@7, ID=@8, THEN=@9, ELSE=@10
 // oder
-// Aufruf: TASTE, THEN=@8, ELSE=@9
+// Aufruf: TASTE, THEN=@9, ELSE=@10
 
-    // in als Eingang einstellen
-    cbi @6,@5
-    // Pull-Up Widerstand einschalten
-    sbi @4,@5
-
-    // out als Ausgang einstellen
-    sbi @2, @1
-    // Ausgang auf 0
-    cbi @0, @1
-
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-
-    sbic @3, @5
-    rjmp ist_nicht_unten
-    ist_unten:
-///	sbi @0,@1
-    sts TASTEN_ZUSTAENDE_TEMP+@7, EINS
+    lds temp, TASTEN_ZUSTAENDE_TEMP+@8
+    sbrs temp, 0
     rjmp @9
-    
-    ist_nicht_unten:
-///	sbi @0,@1
-    sts TASTEN_ZUSTAENDE_TEMP+@7, NULL
-    rjmp @8
+    rjmp @10
+
 .endm
 
 
@@ -124,56 +79,24 @@
 ;######### prueft, ob eine Taste #############
 ;############ gedrueckt wurde ################
 ;#############################################
-;######## Bedarf: 34 Byte, 18 Takte ##########
+;######## Bedarf: 16 Byte, 00 Takte ##########
 ;#############################################
 .macro pruefe_taste_gedrueckt
-// Aufruf: outPort=@0, outPin=@1, outReg=@2, inPort=@3, inPort2=@4, inPin=@5, inReg=@6, ID=@7, THEN=@8, ELSE=@9
+// Aufruf: reset=@0, outPort=@1, outPin=@2, outReg=@3, inPort=@4, inPort2=@5, inPin=@6, inReg=@7, ID=@8, THEN=@9, ELSE=@10
 // oder
-// Aufruf: TASTE, THEN=@8, ELSE=@9
+// Aufruf: TASTE, THEN=@9, ELSE=@10
 
-    // in als Eingang einstellen
-    cbi @6,@5
-    // Pull-Up Widerstand einschalten
-    sbi @4,@5
-
-    // out als Ausgang einstellen
-    sbi @2, @1
-    // Ausgang auf 0
-    cbi @0, @1;8
-
-	NOP
-	NOP
-	NOP
-	NOP
-	NOP
-
-    sbic @3, @5
-    rjmp ist_nicht_unten2
-    ist_unten:
-    sts TASTEN_ZUSTAENDE_TEMP+@7, EINS
-    lds temp, TASTEN_ZUSTAENDE+@7
-    cpi temp, 0
-    brne ist_nicht_unten
-
-///	cbi @4,@5
-///	cbi @2,@1
-///	cbi @0,@1
-    rjmp @8
+    lds temp, TASTEN_ZUSTAENDE_TEMP+@8
+    lds temp2, TASTEN_ZUSTAENDE+@8
     
-    ist_nicht_unten:
-///	cbi @4,@5
-///	cbi @2,@1
-///	cbi @0,@1
+    cp temp2, temp
+    brsh nicht_druecken
     rjmp @9
-
-    ist_nicht_unten2:
-///	cbi @4,@5
-///	cbi @2,@1
-///	cbi @0,@1
-    sts TASTEN_ZUSTAENDE_TEMP+@7, NULL
-    rjmp @9
+    nicht_druecken:
+    rjmp @10
 
 .endm
+
 
 ;#############################################
 ;########### aktualisierte die ###############
@@ -199,17 +122,52 @@ brne nochmal
 .endm
 
 .macro tasten_zustaende_init
-ldi zl, low(TASTEN_ZUSTAENDE_TEMP)
-ldi zh, high(TASTEN_ZUSTAENDE_TEMP)
-
-ldi xl, low(TASTEN_ZUSTAENDE)
-ldi xh, high(TASTEN_ZUSTAENDE)
-
-ldi temp, 18
-nochmal:
-ld temp2, X+
-st Z+, temp2
-
-dec temp
-brne nochmal
+LINKS_TASTE pruefe_taste
+RECHTS_TASTE pruefe_taste
+HOCH_TASTE pruefe_taste
+RUNTER_TASTE pruefe_taste
+EINS_TASTE pruefe_taste
+ZWEI_TASTE pruefe_taste
+DREI_TASTE pruefe_taste
+VIER_TASTE pruefe_taste
+START_TASTE pruefe_taste
+SUPER_TASTE pruefe_taste
+L_EINS_TASTE pruefe_taste
+L_ZWEI_TASTE pruefe_taste
+R_EINS_TASTE pruefe_taste
+R_ZWEI_TASTE pruefe_taste
 .endm
+
+
+.macro pruefe_taste
+// Aufruf: reset=@0, outPort=@1, outPin=@2, outReg=@3, inPort=@4, inPort2=@5, inPin=@6, inReg=@7, ID=@8
+// oder
+// Aufruf: TASTE
+
+    @0
+
+    // in als Eingang einstellen
+    cbi @7,@6
+    // Pull-Up Widerstand einschalten
+    sbi @5,@6
+
+    // out als Ausgang einstellen
+    sbi @3, @2
+    // Ausgang auf 0
+    cbi @1, @2
+
+	NOP
+	NOP
+
+    mov temp, EINS
+    sbic @4, @6
+    mov temp, NULL
+    sts TASTEN_ZUSTAENDE_TEMP+@8, temp
+.endm
+
+
+.DSEG
+TASTEN_ZUSTAENDE:        .BYTE 18
+TASTEN_ZUSTAENDE_TEMP:   .BYTE 18
+
+.CSEG

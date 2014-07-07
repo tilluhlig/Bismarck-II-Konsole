@@ -159,7 +159,7 @@ rechts_taste_nicht_gedrueckt:*/
 
 // Scheinwerfer einstellen
 .include "Scheinwerfer_einstellen.asm"
-//.include "auslagerung.asm"
+
 /*EINS_TASTE pruefe_taste_gedrueckt, eins_taste_gedrueckt, eins_taste_nicht_gedrueckt
 eins_taste_gedrueckt:
 befehl_schreiben_init
